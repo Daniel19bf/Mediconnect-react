@@ -6,7 +6,7 @@ export const medicalService = {
   async getRecord(patientId: string): Promise<MedicalRecord | null> {
     const { data, error } = await supabase
       .from('medical_records')
-      .select('*, consultations(*, doctor:doctors(*, profile:profiles(*)), prescriptions(*), files:medical_files(*))')
+      .select('*, consultations(*, doctor:doctors(*, profile:profiles(*), specialty:specialties(*)), prescriptions(*), files:medical_files(*))')
       .eq('patient_id', patientId)
       .single();
     if (error) return null;
@@ -29,7 +29,7 @@ export const medicalService = {
   async getConsultations(patientId: string): Promise<Consultation[]> {
     const { data, error } = await supabase
       .from('consultations')
-      .select('*, doctor:doctors(*, profile:profiles(*)), prescriptions(*), files:medical_files(*)')
+      .select('*, doctor:doctors(*, profile:profiles(*), specialty:specialties(*)), prescriptions(*), files:medical_files(*)')
       .eq('patient_id', patientId)
       .order('created_at', { ascending: false });
     if (error) throw error;
