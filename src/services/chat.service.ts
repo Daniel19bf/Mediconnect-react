@@ -56,11 +56,17 @@ export const chatService = {
     const profiles = await Promise.all(
       Array.from(contactMap.keys()).map(async id => {
         const { data: p } = await supabase.from('profiles').select('id,full_name,avatar_url').eq('id', id).single();
-        return { ...p, ...contactMap.get(id) };
+        return {
+          profile_id: id,
+          full_name: p?.full_name ?? 'Usuario',
+          avatar_url: p?.avatar_url ?? '',
+          last_message: contactMap.get(id)?.last_message ?? '',
+          unread: contactMap.get(id)?.unread ?? 0,
+        };
       })
     );
 
-    return profiles as typeof profiles;
+    return profiles;
   },
 
   subscribeToMessages(userId: string, callback: (msg: Message) => void) {

@@ -21,7 +21,7 @@ export default function VideoCallPage() {
   const { appointmentId } = useParams<{ appointmentId: string }>();
   const navigate = useNavigate();
   const jitsiContainerRef = useRef<HTMLDivElement>(null);
-  const apiRef = useRef<ReturnType<typeof window.JitsiMeetExternalAPI> | null>(null);
+  const apiRef = useRef<InstanceType<typeof window.JitsiMeetExternalAPI> | null>(null);
   const [muted, setMuted] = useState(false);
   const [videoOff, setVideoOff] = useState(false);
   const [joined, setJoined] = useState(false);

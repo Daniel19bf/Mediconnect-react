@@ -61,8 +61,10 @@ export default function UsersAdminPage() {
   });
 
   const toggleActive = useMutation({
-    mutationFn: ({ id, active }: { id: string; active: boolean }) =>
-      supabase.from('profiles').update({ is_active: active }).eq('id', id),
+    mutationFn: async ({ id, active }: { id: string; active: boolean }) => {
+      const { error } = await supabase.from('profiles').update({ is_active: active }).eq('id', id);
+      if (error) throw error;
+    },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-users'] }),
   });
 

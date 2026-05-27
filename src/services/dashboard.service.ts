@@ -32,10 +32,15 @@ export const dashboardService = {
       completed_consultations: completedConsult ?? 0,
       video_calls_done: videoCalls ?? 0,
       monthly_revenue: 0, // calcular con consultas * tarifa
-      appointments_by_specialty: (apptBySpec ?? []).map((r: { specialty: { name: string } | null; count: number }) => ({
-        specialty: r.specialty?.name ?? 'Sin especialidad',
-        count: r.count,
-      })),
+      appointments_by_specialty: ((apptBySpec as any) ?? []).map((r: any) => {
+        const specialtyName = Array.isArray(r.specialty)
+          ? r.specialty[0]?.name
+          : r.specialty?.name;
+        return {
+          specialty: specialtyName ?? 'Sin especialidad',
+          count: Number(r.count ?? 0),
+        };
+      }),
       patients_by_month: patientsByMonth ?? [],
       appointments_trend: [],
     };

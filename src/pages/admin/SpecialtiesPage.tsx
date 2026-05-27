@@ -39,7 +39,10 @@ export default function SpecialtiesPage() {
   });
 
   const remove = useMutation({
-    mutationFn: (id: string) => supabase.from('specialties').update({ is_active: false }).eq('id', id),
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('specialties').update({ is_active: false }).eq('id', id);
+      if (error) throw error;
+    },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['specialties'] }),
   });
 

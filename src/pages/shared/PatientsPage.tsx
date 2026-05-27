@@ -123,8 +123,8 @@ export default function PatientsPage() {
         </div>
 
         <Table
-          columns={columns as Parameters<typeof Table>[0]['columns']}
-          data={(data?.data ?? []) as Record<string, unknown>[]}
+          columns={columns}
+          data={data?.data ?? []}
           keyField="id"
           loading={isLoading}
           emptyMessage="No se encontraron pacientes"

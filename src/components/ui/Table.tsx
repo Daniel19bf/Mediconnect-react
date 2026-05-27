@@ -17,7 +17,7 @@ interface TableProps<T> {
   emptyMessage?: string;
 }
 
-export function Table<T extends Record<string, unknown>>({ columns, data, keyField, onRowClick, loading, emptyMessage = 'Sin datos' }: TableProps<T>) {
+export function Table<T extends object>({ columns, data, keyField, onRowClick, loading, emptyMessage = 'Sin datos' }: TableProps<T>) {
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-100 dark:border-gray-700">
       <table className="w-full text-sm">
@@ -56,7 +56,7 @@ export function Table<T extends Record<string, unknown>>({ columns, data, keyFie
               >
                 {columns.map(col => (
                   <td key={col.key} className={cn('px-4 py-3 text-gray-700 dark:text-gray-300', col.className)}>
-                    {col.render ? col.render(row) : (row[col.key] as ReactNode)}
+                    {col.render ? col.render(row) : ((row as any)[col.key] as ReactNode)}
                   </td>
                 ))}
               </tr>
